@@ -134,8 +134,11 @@ void BinaryReader::Skip(int bytesToSkip)
     _stream.seekg(bytesToSkip, std::ifstream::cur);
 }
 
-void BinaryReader::Align(int alignmentAmount)
+size_t BinaryReader::Align(int alignmentValue)
 {
-    const size_t remainder = _stream.tellg() % alignmentAmount;
-    SeekCur(alignmentAmount - remainder);
+    //Todo: Test that this math is working as expected. Had bug here in C# version
+    const size_t remainder = _stream.tellg() % alignmentValue;
+    size_t paddingSize = remainder > 0 ? alignmentValue - remainder : 0;
+    Skip(paddingSize);
+    return paddingSize;
 }

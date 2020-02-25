@@ -29,7 +29,7 @@ public:
     void SeekBeg(int absoluteOffset);
     void SeekCur(int relativeOffset);
     void Skip(int bytesToSkip);
-    void Align(int alignmentAmount = 2048);
+    size_t Align(int alignmentValue = 2048);
 
 private:
     std::ifstream _stream;
