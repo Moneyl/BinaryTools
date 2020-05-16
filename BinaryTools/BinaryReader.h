@@ -5,26 +5,28 @@
 class BinaryReader
 {
 public:
-    BinaryReader(std::string inputPath);
+    BinaryReader(const std::string& inputPath);
     ~BinaryReader();
 
-    uint8_t ReadUint8();
-    uint16_t ReadUint16();
-    uint32_t ReadUint32();
-    uint64_t ReadUint64();
+    [[nodiscard]] uint8_t ReadUint8();
+    [[nodiscard]] uint16_t ReadUint16();
+    [[nodiscard]] uint32_t ReadUint32();
+    [[nodiscard]] uint64_t ReadUint64();
 
-    int8_t ReadInt8();
-    int16_t ReadInt16();
-    int32_t ReadInt32();
-    int64_t ReadInt64();
+    [[nodiscard]] int8_t ReadInt8();
+    [[nodiscard]] int16_t ReadInt16();
+    [[nodiscard]] int32_t ReadInt32();
+    [[nodiscard]] int64_t ReadInt64();
 
-    char ReadChar();
-    std::string ReadNullTerminatedString();
-    std::string ReadFixedLengthString(int length);
-    char NextChar();
+    [[nodiscard]] char ReadChar();
+    [[nodiscard]] std::string ReadNullTerminatedString();
+    [[nodiscard]] std::string ReadFixedLengthString(int length);
+    [[nodiscard]] char NextChar();
 
-    float ReadFloat();
-    double ReadDouble();
+    [[nodiscard]] float ReadFloat();
+    [[nodiscard]] double ReadDouble();
+
+    void ReadToMemory(void* destination, size_t size);
 
     void SeekBeg(int absoluteOffset);
     void SeekCur(int relativeOffset);
@@ -32,6 +34,6 @@ public:
     size_t Align(int alignmentValue = 2048);
 
 private:
-    std::ifstream _stream;
+    std::ifstream stream_;
 };
 
