@@ -127,6 +127,7 @@ int main()
             printf("Float: %f\n", reader.ReadFloat());
             printf("Uint32: %d\n", reader.ReadUint32());
             printf("Int32: %d\n", reader.ReadInt32());
+            delete span.Data();
         }
     }
 }
