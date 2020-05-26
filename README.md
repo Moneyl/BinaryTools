@@ -2,7 +2,7 @@
 C++ classes for reading/writing binary data and some helper functions/classes. Based on C#'s `BinaryReader` and `BinaryWriter`.
 
 ## BinaryReader & BinaryWriter
-Classes which can read/write binary data either from a file or from a memory buffer. Both have functions for the most common primitive types. Ex: `uint32_t`, `int32_t`, `uint64_t`, `int64_t`, `float`, `double`, etc. See `BinaryReader.h` and `BinaryWriter.h` for a full list. The constructor used determines whether the class reads from a file (the constructor provides a file path), or a memory region (it provides a memory address and size). They can also read and write entire structs to or from memory using `ReadToMemory` and `WriteFromMemory`, respectively. 
+Classes which can read/write binary data to/from a file or memory buffer. Both have functions for the most common primitive types. Ex: `uint32_t`, `int32_t`, `uint64_t`, `int64_t`, `float`, `double`, etc. See `BinaryReader.h` and `BinaryWriter.h` for a full list. The constructor used determines whether the class reads from a file (the constructor provides a file path), or a memory region (it provides a memory address and size). They can also read and write entire structs to or from memory using `ReadToMemory` and `WriteFromMemory`, respectively. 
 
 ## Other helpers and included classes
 - `Span<T>`: A very simple wrapper around a fixed sized memory region used by ReadAllBytes. You must free the memory the span points to if it's heap allocated.
