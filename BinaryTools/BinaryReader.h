@@ -2,10 +2,17 @@
 #include <string>
 #include <fstream>
 
+class MemoryBuffer;
+
+//Class that can read binary data either from a file or from a fixed size buffer 
+//depending on the constructor used.
 class BinaryReader
 {
 public:
+    //Reads binary data from file at path
     BinaryReader(const std::string& inputPath);
+    //Reads binary data from fixed size memory buffer
+    BinaryReader(char* buffer, uint32_t sizeInBytes);
     ~BinaryReader();
 
     [[nodiscard]] uint8_t ReadUint8();
@@ -34,6 +41,7 @@ public:
     size_t Align(int alignmentValue = 2048);
 
 private:
-    std::ifstream stream_;
+    std::istream* stream_ = nullptr;
+    MemoryBuffer* buffer_ = nullptr;
 };
 

@@ -1,5 +1,6 @@
 #include "BinaryWriter.h"
 #include "BinaryReader.h"
+#include "Binary.h"
 
 struct TestPod
 {
@@ -65,7 +66,7 @@ int main()
             readData.cash = 0;
             readData.score = 0;
 
-            printf("Reading back data directly into POD struct location in memory...");
+            printf("Reading back data directly into POD struct location in memory... ");
             BinaryReader reader("./TestBin2.bin");
             reader.ReadToMemory(&readData, sizeof(TestPod));
             printf("Done!\n");
@@ -89,7 +90,7 @@ int main()
             readData.cash = 0;
             readData.score = 0;
 
-            printf("Reading data directly into POD struct location in memory...");
+            printf("Reading data directly into POD struct location in memory... ");
             BinaryReader reader("./TestBin3.bin");
             reader.ReadToMemory(&readData, sizeof(TestPod));
             printf("Done!\n");
@@ -99,6 +100,33 @@ int main()
             printf("Float: %f\n", readData.z);
             printf("Uint32: %d\n", readData.cash);
             printf("Int32: %d\n", readData.score);
+        }
+    }
+
+    printf("\n\n**** Test 4 - Read a POD struct from a file to memory and read data from that memory area with BinaryReader ****\n");
+    //Test reading data from handmade binary file straight into POD struct memory location
+    {
+        {
+            TestPod readData = {};
+            readData.x = 0.00000000f;
+            readData.y = 0.00000000f;
+            readData.z = 0.00000000f;
+            readData.cash = 0;
+            readData.score = 0;
+
+            printf("Reading data directly into memory... ");
+            printf("Done!\n");
+            auto span = ReadAllBytes("./TestBin3.bin");
+            printf("Reading values of memory buffer with BinaryReader... ");
+            printf("Done!\n");
+
+            BinaryReader reader(span.Data(), span.Size());
+            printf("Printing values...\n");
+            printf("Float: %f\n", reader.ReadFloat());
+            printf("Float: %f\n", reader.ReadFloat());
+            printf("Float: %f\n", reader.ReadFloat());
+            printf("Uint32: %d\n", reader.ReadUint32());
+            printf("Int32: %d\n", reader.ReadInt32());
         }
     }
 }

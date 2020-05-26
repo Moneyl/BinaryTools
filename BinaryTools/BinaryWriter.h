@@ -2,10 +2,17 @@
 #include <string>
 #include <fstream>
 
+class MemoryBuffer;
+
+//Class that can write binary data either from a file or from a fixed size buffer 
+//depending on the constructor used.
 class BinaryWriter
 {
 public:
+    //Writes binary data from file at path
     BinaryWriter(const std::string& inputPath);
+    //Writes binary data from fixed size memory buffer
+    BinaryWriter(char* buffer, uint32_t sizeInBytes);
     ~BinaryWriter();
 
     void Flush();
@@ -34,6 +41,7 @@ public:
     size_t Align(int alignmentValue = 2048);
 
 private:
-    std::ofstream stream_;
+    std::ostream* stream_ = nullptr;
+    MemoryBuffer* buffer_ = nullptr;
 };
 
