@@ -142,6 +142,7 @@ int main()
     testArray[0] = test{ 2, 3 };
     testArray[1] = test{ 4, 5 };
     testArray[2] = test{ 6, 7 };
+    //Intentionally specifying size of 2 here to see if end() actually points to the end of last element of the span
     Span<test> testSpan(testArray.data(), 2);
 
     test* begin = testSpan.begin();
@@ -152,6 +153,10 @@ int main()
     auto& zero = testSpan[0];
     auto& one = testSpan[1];
     auto& two = testSpan[2];
+
+    printf("Testing use of range based for loops with Span<T>...\n");
+    for (auto& val : testSpan)
+        printf("value: {a: %d, b: %d}\n", val.a, val.b);
 
     auto a = 2;
 }
