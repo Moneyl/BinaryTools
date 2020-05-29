@@ -1,6 +1,7 @@
 #include "BinaryWriter.h"
 #include "BinaryReader.h"
 #include "Binary.h"
+#include <array>
 
 struct TestPod
 {
@@ -130,4 +131,27 @@ int main()
             delete span.Data();
         }
     }
+
+    struct test
+    {
+        int a;
+        int b;
+    };
+
+    std::array<test, 3> testArray;
+    testArray[0] = test{ 2, 3 };
+    testArray[1] = test{ 4, 5 };
+    testArray[2] = test{ 6, 7 };
+    Span<test> testSpan(testArray.data(), 2);
+
+    test* begin = testSpan.begin();
+    test* end = testSpan.end();
+    auto& front = testSpan.front();
+    auto& back = testSpan.back();
+
+    auto& zero = testSpan[0];
+    auto& one = testSpan[1];
+    auto& two = testSpan[2];
+
+    auto a = 2;
 }
