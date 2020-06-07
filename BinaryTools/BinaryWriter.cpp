@@ -113,3 +113,8 @@ size_t BinaryWriter::Align(int alignmentValue)
     Skip(paddingSize);
     return paddingSize;
 }
+
+size_t BinaryWriter::Position() const
+{
+    return stream_->tellp();
+}

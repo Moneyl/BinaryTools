@@ -40,6 +40,8 @@ public:
     void Skip(int bytesToSkip);
     size_t Align(int alignmentValue = 2048);
 
+    size_t Position() const;
+
 private:
     std::istream* stream_ = nullptr;
     MemoryBuffer* buffer_ = nullptr;

@@ -156,3 +156,8 @@ size_t BinaryReader::Align(int alignmentValue)
     Skip(paddingSize);
     return paddingSize;
 }
+
+size_t BinaryReader::Position() const
+{
+    return stream_->tellg();
+}
