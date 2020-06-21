@@ -12,6 +12,12 @@ BinaryReader::BinaryReader(char* buffer, uint32_t sizeInBytes)
     stream_ = new std::istream(buffer_, false);
 }
 
+BinaryReader::BinaryReader(std::span<uint8_t> buffer)
+{
+    buffer_ = new MemoryBuffer((char*)buffer.data(), buffer.size_bytes());
+    stream_ = new std::istream(buffer_, false);
+}
+
 BinaryReader::~BinaryReader()
 {
     delete stream_;

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <fstream>
+#include <span>
 
 class MemoryBuffer;
 
@@ -13,6 +14,8 @@ public:
     BinaryReader(const std::string& inputPath);
     //Reads binary data from fixed size memory buffer
     BinaryReader(char* buffer, uint32_t sizeInBytes);
+    //Reads binary data from fixed size memory buffer
+    BinaryReader(std::span<uint8_t> buffer);
     ~BinaryReader();
 
     [[nodiscard]] uint8_t ReadUint8();
