@@ -101,7 +101,7 @@ std::string BinaryReader::ReadNullTerminatedString()
     return output;
 }
 
-std::string BinaryReader::ReadFixedLengthString(int length)
+std::string BinaryReader::ReadFixedLengthString(size_t length)
 {
     std::string output;
     for (int i = 0; i < length; i++)
@@ -139,22 +139,22 @@ void BinaryReader::ReadToMemory(void* destination, size_t size)
     stream_->read(static_cast<char*>(destination), size);
 }
 
-void BinaryReader::SeekBeg(int absoluteOffset)
+void BinaryReader::SeekBeg(size_t absoluteOffset)
 {
     stream_->seekg(absoluteOffset, std::ifstream::beg);
 }
 
-void BinaryReader::SeekCur(int relativeOffset)
+void BinaryReader::SeekCur(size_t relativeOffset)
 {
     stream_->seekg(relativeOffset, std::ifstream::cur);
 }
 
-void BinaryReader::Skip(int bytesToSkip)
+void BinaryReader::Skip(size_t bytesToSkip)
 {
     stream_->seekg(bytesToSkip, std::ifstream::cur);
 }
 
-size_t BinaryReader::Align(int alignmentValue)
+size_t BinaryReader::Align(size_t alignmentValue)
 {
     //Todo: Test that this math is working as expected. Had bug here in C# version
     const size_t remainder = stream_->tellg() % alignmentValue;

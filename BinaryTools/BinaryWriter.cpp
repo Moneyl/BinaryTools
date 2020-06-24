@@ -90,22 +90,22 @@ void BinaryWriter::WriteFromMemory(void* data, size_t size)
     stream_->write(reinterpret_cast<const char*>(data), size);
 }
 
-void BinaryWriter::SeekBeg(int absoluteOffset)
+void BinaryWriter::SeekBeg(size_t absoluteOffset)
 {
     stream_->seekp(absoluteOffset, std::ifstream::beg);
 }
 
-void BinaryWriter::SeekCur(int relativeOffset)
+void BinaryWriter::SeekCur(size_t relativeOffset)
 {
     stream_->seekp(relativeOffset, std::ifstream::cur);
 }
 
-void BinaryWriter::Skip(int bytesToSkip)
+void BinaryWriter::Skip(size_t bytesToSkip)
 {
     stream_->seekp(bytesToSkip, std::ifstream::cur);
 }
 
-size_t BinaryWriter::Align(int alignmentValue)
+size_t BinaryWriter::Align(size_t alignmentValue)
 {
     //Todo: Test that this math is working as expected. Had bug here in C# version
     const size_t remainder = stream_->tellp() % alignmentValue;

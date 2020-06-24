@@ -35,10 +35,10 @@ public:
 
     void WriteFromMemory(void* data, size_t size);
 
-    void SeekBeg(int absoluteOffset);
-    void SeekCur(int relativeOffset);
-    void Skip(int bytesToSkip);
-    size_t Align(int alignmentValue = 2048);
+    void SeekBeg(size_t absoluteOffset);
+    void SeekCur(size_t relativeOffset);
+    void Skip(size_t bytesToSkip);
+    size_t Align(size_t alignmentValue = 2048);
 
     size_t Position() const;
 
