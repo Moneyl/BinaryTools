@@ -8,13 +8,13 @@ BinaryReader::BinaryReader(const std::string& inputPath)
 
 BinaryReader::BinaryReader(char* buffer, uint32_t sizeInBytes)
 {
-    buffer_ = new MemoryBuffer(buffer, sizeInBytes);
+    buffer_ = new basic_memstreambuf<char>(buffer, sizeInBytes);
     stream_ = new std::istream(buffer_, false);
 }
 
 BinaryReader::BinaryReader(std::span<uint8_t> buffer)
 {
-    buffer_ = new MemoryBuffer((char*)buffer.data(), buffer.size_bytes());
+    buffer_ = new basic_memstreambuf<char>((char*)buffer.data(), buffer.size_bytes());
     stream_ = new std::istream(buffer_, false);
 }
 

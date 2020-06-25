@@ -1,9 +1,11 @@
 #pragma once
-#include <string>
+#include "MemoryBuffer.h"
 #include <fstream>
+#include <string>
 #include <span>
 
 class MemoryBuffer;
+
 
 //Class that can read binary data either from a file or from a fixed size buffer 
 //depending on the constructor used.
@@ -47,6 +49,6 @@ public:
 
 private:
     std::istream* stream_ = nullptr;
-    MemoryBuffer* buffer_ = nullptr;
+    basic_memstreambuf<char>* buffer_ = nullptr;
 };
 
