@@ -33,7 +33,7 @@ public:
     [[nodiscard]] char ReadChar();
     [[nodiscard]] std::string ReadNullTerminatedString();
     [[nodiscard]] std::string ReadFixedLengthString(size_t length);
-    [[nodiscard]] char NextChar();
+    [[nodiscard]] char PeekChar();
 
     [[nodiscard]] float ReadFloat();
     [[nodiscard]] double ReadDouble();
