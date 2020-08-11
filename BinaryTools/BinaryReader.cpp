@@ -93,7 +93,7 @@ std::string BinaryReader::ReadNullTerminatedString()
 {
     std::string output;
     char charBuffer = 0;
-    while(PeekChar() != '\n')
+    while(PeekChar() != '\0')
     {
         stream_->read(&charBuffer, 1);
         output.push_back(charBuffer);
