@@ -38,9 +38,14 @@ public:
     void SeekBeg(size_t absoluteOffset);
     void SeekCur(size_t relativeOffset);
     void Skip(size_t bytesToSkip);
+    void WriteNullBytes(size_t bytesToWrite);
+    //Static method for calculating alignment pad from pos and alignment. Does not change position since static
+    static size_t CalcAlign(size_t position, size_t alignmentValue = 2048);
+    //Aligns stream to alignment value. Returns padding byte count
     size_t Align(size_t alignmentValue = 2048);
 
     size_t Position() const;
+    size_t Length();
 
 private:
     std::ostream* stream_ = nullptr;

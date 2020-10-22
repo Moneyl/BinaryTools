@@ -72,7 +72,8 @@ void BinaryWriter::WriteChar(char value)
 
 void BinaryWriter::WriteNullTerminatedString(const std::string& value)
 {
-    stream_->write(value.data(), 1);
+    stream_->write(value.data(), value.size());
+    WriteChar('\0');
 }
 
 void BinaryWriter::WriteFloat(float value)
@@ -102,14 +103,39 @@ void BinaryWriter::SeekCur(size_t relativeOffset)
 
 void BinaryWriter::Skip(size_t bytesToSkip)
 {
-    stream_->seekp(bytesToSkip, std::ifstream::cur);
+    size_t position = Position();
+    size_t length = Length();
+
+    //If we're skipped past the end of the stream then skip what's available and write null bytes for the rest
+    if (position + bytesToSkip > length)
+    {
+        size_t bytesAvailable = length - position;
+        size_t bytesNeeded = bytesToSkip - bytesAvailable;
+
+        stream_->seekp(bytesAvailable, std::ifstream::cur);
+        WriteNullBytes(bytesNeeded);
+    }
+    else
+        stream_->seekp(bytesToSkip, std::ifstream::cur);
+}
+
+void BinaryWriter::WriteNullBytes(size_t bytesToWrite)
+{
+    //Todo: See if quicker to allocate array of zeros and use WriteFromMemory
+    for (size_t i = 0; i < bytesToWrite; i++)
+        WriteUint8(0);
+}
+
+size_t BinaryWriter::CalcAlign(size_t position, size_t alignmentValue)
+{
+    const size_t remainder = position % alignmentValue;
+    size_t paddingSize = remainder > 0 ? alignmentValue - remainder : 0;
+    return paddingSize;
 }
 
 size_t BinaryWriter::Align(size_t alignmentValue)
 {
-    //Todo: Test that this math is working as expected. Had bug here in C# version
-    const size_t remainder = stream_->tellp() % alignmentValue;
-    size_t paddingSize = remainder > 0 ? alignmentValue - remainder : 0;
+    const size_t paddingSize = CalcAlign(stream_->tellp(), alignmentValue);
     Skip(paddingSize);
     return paddingSize;
 }
@@ -117,4 +143,18 @@ size_t BinaryWriter::Align(size_t alignmentValue)
 size_t BinaryWriter::Position() const
 {
     return stream_->tellp();
+}
+
+size_t BinaryWriter::Length()
+{
+    //Save current position
+    size_t realPosition = Position();
+
+    //Seek to end of file and get position (the length)
+    stream_->seekp(0, std::ios::end);
+    size_t endPosition = Position();
+
+    //Seek back to real pos and return length
+    SeekBeg(realPosition);
+    return endPosition;
 }
