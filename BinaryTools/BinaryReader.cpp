@@ -98,6 +98,7 @@ std::string BinaryReader::ReadNullTerminatedString()
         stream_->read(&charBuffer, 1);
         output.push_back(charBuffer);
     }
+    Skip(1);
     return output;
 }
 
