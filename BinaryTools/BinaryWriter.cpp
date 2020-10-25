@@ -155,6 +155,8 @@ size_t BinaryWriter::Length()
     size_t endPosition = Position();
 
     //Seek back to real pos and return length
-    SeekBeg(realPosition);
+    if (realPosition != endPosition)
+        SeekBeg(realPosition);
+    
     return endPosition;
 }
