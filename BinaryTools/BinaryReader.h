@@ -46,6 +46,7 @@ public:
     size_t Align(size_t alignmentValue = 2048);
 
     size_t Position() const;
+    size_t Length();
 
 private:
     std::istream* stream_ = nullptr;

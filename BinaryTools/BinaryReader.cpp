@@ -167,3 +167,17 @@ size_t BinaryReader::Position() const
 {
     return stream_->tellg();
 }
+
+size_t BinaryReader::Length()
+{
+    //Save current position
+    size_t realPosition = Position();
+
+    //Seek to end of file and get position (the length)
+    stream_->seekg(0, std::ios::end);
+    size_t endPosition = Position();
+
+    //Seek back to real pos and return length
+    SeekBeg(realPosition);
+    return endPosition;
+}
