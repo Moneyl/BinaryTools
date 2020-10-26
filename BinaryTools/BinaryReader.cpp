@@ -173,12 +173,10 @@ size_t BinaryReader::Length()
 {
     //Save current position
     size_t realPosition = Position();
-    printf("realPos: %d", realPosition);
 
     //Seek to end of file and get position (the length)
     stream_->seekg(0, std::ios::end);
     size_t endPosition = Position();
-    printf("endPos: %d", endPosition);
 
     //Seek back to real pos and return length
     if(realPosition != endPosition)
