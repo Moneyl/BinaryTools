@@ -76,6 +76,11 @@ void BinaryWriter::WriteNullTerminatedString(const std::string& value)
     WriteChar('\0');
 }
 
+void BinaryWriter::WriteFixedLengthString(const std::string& value)
+{
+    stream_->write(value.data(), value.size());
+}
+
 void BinaryWriter::WriteFloat(float value)
 {
     stream_->write(reinterpret_cast<const char*>(&value), 4);
