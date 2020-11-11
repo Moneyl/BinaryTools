@@ -1,6 +1,11 @@
 #pragma once
+//Somehow the windows min and max macros are being leaked into here regardless of where I define NOMINMAX. This works as a fix for the moment
+#undef min
+#undef max
 #include <streambuf>
 #include <algorithm>
+#include <numeric>
+#include <limits>
 
 //Simple wrapper around std::streambuf representing a memory buffer.
 //Used by BinaryReader and BinaryWriter
@@ -17,7 +22,6 @@ struct MemoryBuffer : std::streambuf
 };
 
 //Used by BinaryReader for reading from in memory buffers.
-//Todo: Make BinaryWriter use this. Old implementation doesn't work properly in most cases.
 //Source: https://gist.github.com/polyvertex/ce86fddfa28edcfb19a77f9024a5461c
 
 // A memory stream buffer class compliant with `std::basic_streambuf`.
@@ -39,18 +43,14 @@ struct MemoryBuffer : std::streambuf
 //   https://gist.github.com/mlfarrell/28ea0e7b10756042956b579781ac0dd8
 // * Memory streambuf and stream
 //   https://codereview.stackexchange.com/questions/138479/memory-streambuf-and-stream
-template <
-    class CharT,
-    class Traits = std::char_traits<CharT>>
-    class basic_memstreambuf :
-    public std::basic_streambuf<CharT, Traits>
+
+class basic_memstreambuf : public std::streambuf
 {
 public:
-    typedef std::basic_streambuf<CharT, Traits> BaseT;
+    using BaseT = std::streambuf;
 
     using BaseT::int_type;
     using BaseT::traits_type;
-
 
 public:
     basic_memstreambuf()
@@ -58,7 +58,7 @@ public:
     { }
 
     explicit basic_memstreambuf(const basic_memstreambuf& rhs)
-        : BaseT(static_cast<BaseT&>(rhs))
+        : BaseT(rhs)
     { }
 
     // non-standard
@@ -67,14 +67,13 @@ public:
     {
         //assert(!s.empty());
         setg(
-            const_cast<char_type*>(s.begin()),
-            const_cast<char_type*>(s.begin()),
-            const_cast<char_type*>(s.end()));
+            const_cast<char_type*>(&s.front()),
+            const_cast<char_type*>(&s.front()),
+            const_cast<char_type*>(&s.back()));
     }
 
     // non-standard
-    basic_memstreambuf(const char_type* s, std::streamsize n)
-        : BaseT()
+    basic_memstreambuf(const char_type* s, std::streamsize n) : BaseT()
     {
        // assert(s);
         //assert(n > 0);
@@ -94,8 +93,8 @@ public:
 
         // check size
         const std::uintmax_t count = end - begin;
-        if (count > static_cast<decltype(count)>(
-            std::numeric_limits<std::streamsize>::max()))
+        const std::uintmax_t maxValue = static_cast<std::uintmax_t>(std::numeric_limits<std::streamsize>::max());
+        if (count > maxValue)
         {
             throw std::invalid_argument("basic_memstreambuf too big");
         }
@@ -135,8 +134,8 @@ protected:
         if (count == 0)
             return 0;
 
-        const auto* ptr = gptr();
-        const auto to_read = std::min(
+        const char* ptr = gptr();
+        const std::streamsize to_read = std::min(
             count,
             static_cast<std::streamsize>(egptr() - ptr));
 

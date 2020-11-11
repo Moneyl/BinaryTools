@@ -50,6 +50,6 @@ public:
 
 private:
     std::istream* stream_ = nullptr;
-    basic_memstreambuf<char>* buffer_ = nullptr;
+    basic_memstreambuf* buffer_ = nullptr;
 };
 
