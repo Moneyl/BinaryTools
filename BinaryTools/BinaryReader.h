@@ -4,7 +4,7 @@
 #include <string>
 #include <span>
 
-class MemoryBuffer;
+struct MemoryBuffer;
 
 
 //Class that can read binary data either from a file or from a fixed size buffer 
