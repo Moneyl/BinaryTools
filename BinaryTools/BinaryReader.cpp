@@ -89,6 +89,13 @@ char BinaryReader::ReadChar()
     return output;
 }
 
+wchar_t BinaryReader::ReadCharWide()
+{
+    wchar_t output;
+    stream_->read((char*)&output, 2);
+    return output;
+}
+
 std::string BinaryReader::ReadNullTerminatedString()
 {
     std::string output;
@@ -98,13 +105,14 @@ std::string BinaryReader::ReadNullTerminatedString()
         stream_->read(&charBuffer, 1);
         output.push_back(charBuffer);
     }
-    Skip(1);
+    Skip(1); //Move past null terminator
     return output;
 }
 
 std::string BinaryReader::ReadFixedLengthString(size_t length)
 {
     std::string output;
+    output.reserve(length);
     for (int i = 0; i < length; i++)
     {
         char charBuffer;
@@ -114,10 +122,43 @@ std::string BinaryReader::ReadFixedLengthString(size_t length)
     return output;
 }
 
+std::wstring BinaryReader::ReadNullTerminatedStringWide()
+{
+    std::wstring output;
+    wchar_t charBuffer = 0;
+    while (PeekCharWide() != '\0')
+    {
+        stream_->read((char*)&charBuffer, 2);
+        output.push_back(charBuffer);
+    }
+    Skip(2); //Move past null terminator
+    return output;
+}
+
+std::wstring BinaryReader::ReadFixedLengthStringWide(size_t length)
+{
+    std::wstring output;
+    output.reserve(length);
+    for (int i = 0; i < length; i++)
+    {
+        wchar_t charBuffer;
+        stream_->read((char*)&charBuffer, 2);
+        output.push_back(charBuffer);
+    }
+    return output;
+}
+
 char BinaryReader::PeekChar()
 {
     char output = ReadChar();
     SeekCur(-1);
+    return output;
+}
+
+wchar_t BinaryReader::PeekCharWide()
+{
+    wchar_t output = ReadCharWide();
+    SeekCur(-2);
     return output;
 }
 

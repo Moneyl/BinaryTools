@@ -31,9 +31,13 @@ public:
     [[nodiscard]] int64_t ReadInt64();
 
     [[nodiscard]] char ReadChar();
+    [[nodiscard]] wchar_t ReadCharWide();
     [[nodiscard]] std::string ReadNullTerminatedString();
     [[nodiscard]] std::string ReadFixedLengthString(size_t length);
+    [[nodiscard]] std::wstring ReadNullTerminatedStringWide();
+    [[nodiscard]] std::wstring ReadFixedLengthStringWide(size_t length);
     [[nodiscard]] char PeekChar();
+    [[nodiscard]] wchar_t PeekCharWide();
 
     [[nodiscard]] float ReadFloat();
     [[nodiscard]] double ReadDouble();
