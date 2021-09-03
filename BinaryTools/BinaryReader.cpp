@@ -148,12 +148,43 @@ std::wstring BinaryReader::ReadFixedLengthStringWide(size_t length)
     return output;
 }
 
+std::vector<std::string> BinaryReader::ReadSizedStringList(size_t listSize)
+{
+    std::vector<std::string> stringList = { };
+    if (listSize == 0)
+        return stringList;
+
+    size_t startPos = Position();
+    while (Position() - startPos < listSize)
+    {
+        stringList.push_back(ReadNullTerminatedString());
+        while (Position() - startPos < listSize)
+        {
+            //Sometimes names have extra null bytes after them for some reason. Simple way to handle this
+            if (PeekChar() == '\0')
+                Skip(1);
+            else
+                break;
+        }
+    }
+
+    return stringList;
+}
+
 char BinaryReader::PeekChar()
 {
     char output = ReadChar();
     SeekCur(-1);
     return output;
 }
+
+uint32_t BinaryReader::PeekUint32()
+{
+    uint32_t output = ReadUint32();
+    SeekCur(-4);
+    return output;
+}
+
 
 wchar_t BinaryReader::PeekCharWide()
 {
@@ -222,6 +253,6 @@ size_t BinaryReader::Length()
     //Seek back to real pos and return length
     if(realPosition != endPosition)
         SeekBeg(realPosition);
-    
+
     return endPosition;
 }

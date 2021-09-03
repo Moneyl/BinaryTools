@@ -3,11 +3,12 @@
 #include <fstream>
 #include <string>
 #include <span>
+#include <vector>
 
 struct MemoryBuffer;
 
 
-//Class that can read binary data either from a file or from a fixed size buffer 
+//Class that can read binary data either from a file or from a fixed size buffer
 //depending on the constructor used.
 class BinaryReader
 {
@@ -36,7 +37,9 @@ public:
     [[nodiscard]] std::string ReadFixedLengthString(size_t length);
     [[nodiscard]] std::wstring ReadNullTerminatedStringWide();
     [[nodiscard]] std::wstring ReadFixedLengthStringWide(size_t length);
+    [[nodiscard]] std::vector<std::string> ReadSizedStringList(size_t listSize);
     [[nodiscard]] char PeekChar();
+    [[nodiscard]] uint32_t PeekUint32();
     [[nodiscard]] wchar_t PeekCharWide();
 
     [[nodiscard]] float ReadFloat();
