@@ -17,7 +17,7 @@ BinaryWriter::~BinaryWriter()
 {
     delete stream_;
     if (buffer_)
-        delete buffer_;
+        delete[] buffer_;
 }
 
 void BinaryWriter::Flush()
@@ -162,6 +162,6 @@ size_t BinaryWriter::Length()
     //Seek back to real pos and return length
     if (realPosition != endPosition)
         SeekBeg(realPosition);
-    
+
     return endPosition;
 }
