@@ -39,12 +39,12 @@ int main()
         writer.WriteUint32(100);
         writer.WriteFloat(512.0f);
         writer.WriteNullTerminatedString("Hello binary!");
-        writer.Align(4); //Write padding bytes to align to value. E.g. position = 13. After align(4), position 16, the next multiple of 4.
+        //Write padding bytes to align to value. E.g. position = 13. After align(4), position = 16, the next multiple of 4.
+        writer.Align(4);
 
         //Can also write whole structs/classes to files
         ExampleHeader header;
         writer.WriteFromMemory(&header, sizeof(ExampleHeader));
-        writer.Flush();
     }
 
     //File reading
