@@ -1,10 +1,10 @@
 #include "BinaryWriter.h"
 #include "MemoryBuffer.h"
 
-BinaryWriter::BinaryWriter(const std::string& inputPath)
+BinaryWriter::BinaryWriter(std::string_view inputPath)
 {
     //Todo: Add more open options. For now should remove all data and write from scratch because of std::ofstream::trunc
-    stream_ = new std::ofstream(inputPath, std::ofstream::out | std::ofstream::binary | std::ofstream::trunc);
+    stream_ = new std::ofstream(std::string(inputPath), std::ofstream::out | std::ofstream::binary | std::ofstream::trunc);
 }
 
 BinaryWriter::BinaryWriter(char* buffer, uint32_t sizeInBytes)

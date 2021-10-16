@@ -14,7 +14,7 @@ class BinaryReader
 {
 public:
     //Reads binary data from file at path
-    BinaryReader(const std::string& inputPath);
+    BinaryReader(std::string_view inputPath);
     //Reads binary data from fixed size memory buffer
     BinaryReader(char* buffer, uint32_t sizeInBytes);
     //Reads binary data from fixed size memory buffer

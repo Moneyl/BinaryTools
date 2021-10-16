@@ -1,9 +1,9 @@
 #include "BinaryReader.h"
 #include "MemoryBuffer.h"
 
-BinaryReader::BinaryReader(const std::string& inputPath)
+BinaryReader::BinaryReader(std::string_view inputPath)
 {
-    stream_ = new std::ifstream(inputPath, std::ifstream::in | std::ifstream::binary);
+    stream_ = new std::ifstream(std::string(inputPath), std::ifstream::in | std::ifstream::binary);
 }
 
 BinaryReader::BinaryReader(char* buffer, uint32_t sizeInBytes)

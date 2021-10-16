@@ -4,13 +4,13 @@
 
 class MemoryBuffer;
 
-//Class that can write binary data either from a file or from a fixed size buffer 
+//Class that can write binary data either from a file or from a fixed size buffer
 //depending on the constructor used.
 class BinaryWriter
 {
 public:
     //Writes binary data from file at path
-    BinaryWriter(const std::string& inputPath);
+    BinaryWriter(std::string_view inputPath);
     //Writes binary data from fixed size memory buffer
     BinaryWriter(char* buffer, uint32_t sizeInBytes);
     ~BinaryWriter();
