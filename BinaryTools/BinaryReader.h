@@ -49,6 +49,7 @@ public:
 
     void SeekBeg(size_t absoluteOffset);
     void SeekCur(size_t relativeOffset);
+    void SeekReverse(size_t relativeOffset); //Move backwards from the current stream position
     void Skip(size_t bytesToSkip);
     size_t Align(size_t alignmentValue = 2048);
 

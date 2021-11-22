@@ -146,7 +146,7 @@ protected:
         else
         {
             std::memcpy(s, ptr, to_read);
-            gbump(to_read);
+            gbump((int)to_read);
             return to_read;
         }
     }
@@ -176,22 +176,10 @@ protected:
         }
         else if (dir == std::ios_base::cur)
         {
-            bool a1 = off >= 0;
-            bool a2 = off < egptr() - gptr();
-            bool a = a1 && a2;
-
-            bool a1Alt = off >= 0;
-            bool a2Alt = off <= egptr() - gptr();
-            bool aAlt = a1 && a2;
-
-            bool b1 = off < 0;
-            bool b2 = std::abs(off) < gptr() - eback();
-            bool b = b1 && b2;
-
             if ((off >= 0 && off <= egptr() - gptr()) ||
                 (off < 0 && std::abs(off) < gptr() - eback()))
             {
-                gbump(off);
+                gbump((int)off);
             }
             else
             {
@@ -203,7 +191,7 @@ protected:
         {
             if (off <= 0 && std::abs(off) < egptr() - eback())
             {
-                setg(eback(), egptr() + off, egptr());
+                setg(eback(), egptr() + (int)off, egptr());
             }
             else
             {

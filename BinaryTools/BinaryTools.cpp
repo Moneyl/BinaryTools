@@ -51,7 +51,7 @@ int main()
             writeData.z = 22334.44f;
             writeData.cash = 1003;
             writeData.score = -64230;
-            printf("sizeof(TestPod) = %d\n", sizeof(TestPod));
+            printf("sizeof(TestPod) = %zd\n", sizeof(TestPod));
 
             printf("Writing POD struct from memory... ");
             BinaryWriter writer("./TestBin2.bin");
@@ -121,7 +121,7 @@ int main()
             printf("Reading values of memory buffer with BinaryReader... ");
             printf("Done!\n");
 
-            BinaryReader reader(span.Data(), span.Size());
+            BinaryReader reader(span.Data(), (uint32_t)span.Size());
             printf("Printing values...\n");
             printf("Float: %f\n", reader.ReadFloat());
             printf("Float: %f\n", reader.ReadFloat());

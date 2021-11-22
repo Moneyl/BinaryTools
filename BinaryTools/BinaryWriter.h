@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 
-class MemoryBuffer;
+struct MemoryBuffer;
 
 //Class that can write binary data either from a file or from a fixed size buffer
 //depending on the constructor used.

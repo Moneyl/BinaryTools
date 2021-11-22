@@ -174,14 +174,14 @@ std::vector<std::string> BinaryReader::ReadSizedStringList(size_t listSize)
 char BinaryReader::PeekChar()
 {
     char output = ReadChar();
-    SeekCur(-1);
+    SeekReverse(1);
     return output;
 }
 
 uint32_t BinaryReader::PeekUint32()
 {
     uint32_t output = ReadUint32();
-    SeekCur(-4);
+    SeekReverse(4);
     return output;
 }
 
@@ -189,7 +189,7 @@ uint32_t BinaryReader::PeekUint32()
 wchar_t BinaryReader::PeekCharWide()
 {
     wchar_t output = ReadCharWide();
-    SeekCur(-2);
+    SeekReverse(2);
     return output;
 }
 
@@ -220,6 +220,13 @@ void BinaryReader::SeekBeg(size_t absoluteOffset)
 void BinaryReader::SeekCur(size_t relativeOffset)
 {
     stream_->seekg(relativeOffset, std::ifstream::cur);
+}
+
+void BinaryReader::SeekReverse(size_t relativeOffset)
+{
+    const size_t delta = std::min(Position(), relativeOffset); //Don't allow seeking before the beginning of the stream
+    const size_t targetOffset = Position() - delta;
+    SeekBeg(targetOffset);
 }
 
 void BinaryReader::Skip(size_t bytesToSkip)
