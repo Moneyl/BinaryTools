@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <fstream>
+#include <span>
 
 struct MemoryBuffer;
 
@@ -36,8 +37,22 @@ public:
     void WriteFloat(float value);
     void WriteDouble(double value);
 
-    void WriteFromMemory(void* data, size_t size);
+    void WriteFromMemory(const void* data, size_t size);
 
+    template<typename T>
+    void Write(const T& data)
+    {
+        //Don't allow T to be a pointer to avoid accidentally writing the value of a pointer instead of what it points to.
+        static_assert(!std::is_pointer<T>(), "BinaryWriter::Write<T> requires T to be a non pointer type.");
+        WriteFromMemory(&data, sizeof(T));
+    }
+
+    template<typename T>
+    void WriteSpan(std::span<T> data)
+    {
+        WriteFromMemory(data.data(), data.size_bytes());
+    }
+    
     void SeekBeg(size_t absoluteOffset);
     void SeekCur(size_t relativeOffset);
     void Skip(size_t bytesToSkip);

@@ -91,7 +91,7 @@ void BinaryWriter::WriteDouble(double value)
     stream_->write(reinterpret_cast<const char*>(&value), 8);
 }
 
-void BinaryWriter::WriteFromMemory(void* data, size_t size)
+void BinaryWriter::WriteFromMemory(const void* data, size_t size)
 {
     stream_->write(reinterpret_cast<const char*>(data), size);
 }
