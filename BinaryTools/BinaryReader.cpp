@@ -22,7 +22,7 @@ BinaryReader::~BinaryReader()
 {
     delete stream_;
     if (buffer_)
-        delete[] buffer_;
+        delete buffer_;
 }
 
 uint8_t BinaryReader::ReadUint8()
