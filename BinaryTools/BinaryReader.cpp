@@ -160,6 +160,7 @@ std::vector<std::string> BinaryReader::ReadSizedStringList(size_t listSize)
         stringList.push_back(ReadNullTerminatedString());
         while (Position() - startPos < listSize)
         {
+            //TODO: See if Align(4) would accomplish the same. This is really for RfgTools++ since many RFG formats have sized string lists
             //Sometimes names have extra null bytes after them for some reason. Simple way to handle this
             if (PeekChar() == '\0')
                 Skip(1);
